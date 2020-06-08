@@ -5007,11 +5007,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mcb4r\\OneDrive\\Desktop\\github\\code-401\\ToDoToday\\ToDoToday\\ToDoTodayAPI\\ToDoTodayAPI\\ToDoTodayAPI.csproj",
+      "projectUniqueName": "C:\\Users\\mcb4r\\OneDrive\\Desktop\\github\\code-401\\ToDoToday\\TDTAPI\\ToDoTodayAPI\\ToDoTodayAPI\\ToDoTodayAPI\\ToDoTodayAPI.csproj",
       "projectName": "ToDoTodayAPI",
-      "projectPath": "C:\\Users\\mcb4r\\OneDrive\\Desktop\\github\\code-401\\ToDoToday\\ToDoToday\\ToDoTodayAPI\\ToDoTodayAPI\\ToDoTodayAPI.csproj",
+      "projectPath": "C:\\Users\\mcb4r\\OneDrive\\Desktop\\github\\code-401\\ToDoToday\\TDTAPI\\ToDoTodayAPI\\ToDoTodayAPI\\ToDoTodayAPI\\ToDoTodayAPI.csproj",
       "packagesPath": "C:\\Users\\mcb4r\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mcb4r\\OneDrive\\Desktop\\github\\code-401\\ToDoToday\\ToDoToday\\ToDoTodayAPI\\ToDoTodayAPI\\obj\\",
+      "outputPath": "C:\\Users\\mcb4r\\OneDrive\\Desktop\\github\\code-401\\ToDoToday\\TDTAPI\\ToDoTodayAPI\\ToDoTodayAPI\\ToDoTodayAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
