@@ -9,11 +9,6 @@ namespace ToDoTodayAPI.Data
 {
     public class UserDbContext : IdentityDbContext
     {
-        public UserDbContext(DbContextOptions options) : base(options)
-        {
-
-        }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
