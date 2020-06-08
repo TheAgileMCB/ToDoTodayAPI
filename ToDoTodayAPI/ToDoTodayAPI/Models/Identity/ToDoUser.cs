@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ToDoTodayAPI.Models
 {
-    public class User
+    public class ToDoUser
     {
         [Required]
         public string Name { get; set; }
