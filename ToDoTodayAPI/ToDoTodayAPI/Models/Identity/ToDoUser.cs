@@ -10,7 +10,8 @@ namespace ToDoTodayAPI.Models
     public class ToDoUser : IdentityUser
     {
         [Required]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string EyeColor { get; set; }
         public string FavoriteFood { get; set; }
 
