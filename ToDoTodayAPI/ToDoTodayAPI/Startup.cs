@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ToDoTodayAPI.Data;
 
 namespace ToDoTodayAPI
 {
@@ -25,7 +27,19 @@ namespace ToDoTodayAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddMvc();
+
+            services.AddDbContext<ToDoListDBContext>(options =>
+            {
+                string connectionString = Configuration.GetConnectionString("DefaultConnection");
+                options.UseSqlServer(connectionString);
+            });
+
+            services.AddDbContext<UserDbContext>(options =>
+            {
+                string connectionString = Configuration.GetConnectionString("UsersConnection");
+                options.UseSqlServer(connectionString);
+            })
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
