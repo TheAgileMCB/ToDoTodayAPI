@@ -10,12 +10,11 @@ namespace ToDoTodayAPI.Data
 {
     public class UsersDbContext : IdentityDbContext<ToDoUser>
     {
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public UsersDbContext(DbContextOptions options) : base(options)
         {
 
         }
 
-        public DbSet<ToDoUser> User { get; set; }
+        // public DbSet<ToDoUser> User { get; set; }
     }
 }
