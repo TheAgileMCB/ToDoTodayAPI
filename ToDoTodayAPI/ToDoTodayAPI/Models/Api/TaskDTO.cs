@@ -8,6 +8,8 @@ namespace ToDoTodayAPI.Models.Api
 {
     public class TaskDTO
     {
+        public int Id { get; set; }
+
         [Required]
         public string Title { get; set; }
         public DateTime? StartTime { get; set; }
