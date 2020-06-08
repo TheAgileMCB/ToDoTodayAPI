@@ -8,7 +8,7 @@ namespace ToDoTodayAPI.Data
 {
     public class ToDoListDBContext : DbContext
     {
-        public ToDoListDBContext(DbContextOptions options) : base(options)
+        public ToDoListDBContext(DbContextOptions<ToDoListDBContext> options) : base(options)
         {
 
         }
