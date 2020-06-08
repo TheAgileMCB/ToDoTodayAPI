@@ -13,6 +13,6 @@ namespace ToDoTodayAPI.Data
 
         }
 
-        public DbSet<Task> Task { get; set; }
+        // public DbSet<Task> Task { get; set; }
     }
 }
