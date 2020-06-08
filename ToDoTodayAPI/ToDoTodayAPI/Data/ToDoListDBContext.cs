@@ -13,9 +13,6 @@ namespace ToDoTodayAPI.Data
 
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-
-        }
+        public DbSet<Task> Tasks { get; set; }
     }
 }
