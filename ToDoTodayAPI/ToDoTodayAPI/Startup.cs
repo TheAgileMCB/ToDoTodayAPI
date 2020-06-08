@@ -35,7 +35,7 @@ namespace ToDoTodayAPI
                 options.UseSqlServer(connectionString);
             });
 
-            services.AddDbContext<UserDbContext>(options =>
+            services.AddDbContext<UsersDbContext>(options =>
             {
                 string connectionString = Configuration.GetConnectionString("UsersConnection");
                 options.UseSqlServer(connectionString);

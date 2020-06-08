@@ -8,7 +8,7 @@ using ToDoTodayAPI.Models;
 
 namespace ToDoTodayAPI.Data
 {
-    public class UserDbContext : IdentityDbContext
+    public class UsersDbContext : IdentityDbContext
     {
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
