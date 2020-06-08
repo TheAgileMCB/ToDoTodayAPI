@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ToDoTodayAPI.Models
 {
-    public class ToDoList
+    public class Task
     {
         [Required]
-        public string Task { get; set; }
+        public string Title { get; set; }
         public string StartTime { get; set; }
 
         public string DueTime { get; set; }
