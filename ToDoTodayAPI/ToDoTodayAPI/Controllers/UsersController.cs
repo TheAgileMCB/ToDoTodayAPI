@@ -16,6 +16,8 @@ namespace ToDoTodayAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserManager<ToDoUser> userManager;
+
+        public UsersController(UserManager<ToDoUser> userManager)
         {
         this.userManager = userManager;
         }
