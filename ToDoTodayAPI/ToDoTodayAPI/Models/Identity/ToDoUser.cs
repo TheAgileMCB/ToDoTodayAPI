@@ -11,6 +11,7 @@ namespace ToDoTodayAPI.Models
     {
         [Required]
         public string FirstName { get; set; }
+        [Required]
         public string LastName { get; set; }
         public string EyeColor { get; set; }
         public string FavoriteFood { get; set; }
