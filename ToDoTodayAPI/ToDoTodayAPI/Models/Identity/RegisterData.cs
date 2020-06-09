@@ -19,5 +19,11 @@ namespace ToDoTodayAPI.Models.Identity
 
         [Required]
         public string LastName { get; set; }
+
+        public string EyeColor { get; set; }
+
+        public string FavoriteFood { get; set; }
+
+        public DateTime? Birthday { get; set; }
     }
 }
