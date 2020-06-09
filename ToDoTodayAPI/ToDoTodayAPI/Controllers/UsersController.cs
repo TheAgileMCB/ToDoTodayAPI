@@ -30,6 +30,27 @@ namespace ToDoTodayAPI.Controllers
             this.userManager = userManager;
             this.configuration = configuration;
         }
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(LoginData login)
+        {
+            var user = await userManager.FindByNameAsync(login.Username);
+            if (user != null)
+            {
+                var result = await userManager.CheckPasswordAsync(user, login.Password);
+                if (result)
+                {
+                    return Ok(new
+                    {
+                        UserId = user.Id,
+                        Token = CreateToken(user),
+                    });
+                }
+
+                await userManager.AccessFailedAsync(user);
+            }
+
+            return Unauthorized();
+        }
 
         [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterData register)
