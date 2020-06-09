@@ -23,13 +23,12 @@ namespace ToDoTodayAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserManager<ToDoUser> userManager;
-        
-        public IConfiguration Configuration { get; }
+        private readonly IConfiguration configuration;
 
         public UsersController(UserManager<ToDoUser> userManager, IConfiguration configuration)
         {
             this.userManager = userManager;
-            Configuration = configuration;
+            this.configuration = configuration;
         }
 
         [HttpPost("Register")]
@@ -71,10 +70,12 @@ namespace ToDoTodayAPI.Controllers
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim("UserId", user.Id),
-                new Claim("FullName", $"{user.FirstName}{user.LastName}"),
+                new Claim("FullName", $"{user.FirstName} {user.LastName}"),
             };
 
             var token = new JwtSecurityToken(
+                expires: DateTime.UtcNow.AddSeconds(10),
+                claims: tokenClaims,
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
                 );
 
