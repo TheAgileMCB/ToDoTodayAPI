@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ToDoTodayAPI.Data.Repositories;
 using ToDoTodayAPI.Models.Api;
+using Task = ToDoTodayAPI.Models.Task;
 
 namespace ToDoTodayAPI.Controllers
 {
@@ -55,9 +56,9 @@ namespace ToDoTodayAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task Delete(int id)
+        public async Task<Task> DeleteTask(int id)
         {
-            await _tasks.DeleteTask(id);
+            return await _tasks.DeleteTask(id);
         }
 
         private string GetUserId()
