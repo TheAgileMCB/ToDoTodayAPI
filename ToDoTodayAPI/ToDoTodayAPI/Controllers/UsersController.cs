@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,7 @@ namespace ToDoTodayAPI.Controllers
             this.configuration = configuration;
         }
 
+        [Authorize]
         [HttpGet("self")]
         public IActionResult Self()
         {
@@ -154,7 +156,7 @@ namespace ToDoTodayAPI.Controllers
             };
 
             var token = new JwtSecurityToken(
-                expires: DateTime.UtcNow.AddSeconds(10),
+                expires: DateTime.UtcNow.AddMinutes(10),
                 claims: tokenClaims,
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
                 );
