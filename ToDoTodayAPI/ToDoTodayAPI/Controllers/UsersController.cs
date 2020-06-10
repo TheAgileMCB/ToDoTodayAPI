@@ -30,6 +30,19 @@ namespace ToDoTodayAPI.Controllers
             this.userManager = userManager;
             this.configuration = configuration;
         }
+
+        [HttpGet("self")]
+        public IActionResult Self()
+        {
+            var user = HttpContext.User;
+            if (!user.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+
+                return Ok();
+        }
+
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginData login)
         {
