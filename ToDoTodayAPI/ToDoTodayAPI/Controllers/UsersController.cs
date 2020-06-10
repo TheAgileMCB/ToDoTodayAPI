@@ -34,15 +34,27 @@ namespace ToDoTodayAPI.Controllers
 
         [Authorize]
         [HttpGet("self")]
-        public IActionResult Self()
+        public async Task<IActionResult> Self()
         {
-            var user = HttpContext.User;
-            if (!user.Identity.IsAuthenticated)
+            if (HttpContext.User.Identity is ClaimsIdentity claimsIdentity)
             {
-                return Unauthorized();
+                var usernameClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var username = usernameClaim.Value;
+
+                var user = await userManager.FindByNameAsync(username);
+
+                return Ok(new
+                {
+                    UserId = user.Id,
+                    user.Email,
+                    user.FirstName,
+                    user.LastName,
+                });
+
             }
 
-                return Ok();
+            return Unauthorized();
+
         }
 
         [HttpPost("Login")]
