@@ -35,24 +35,64 @@ namespace ToDoTodayAPI.Data.Repositories
 
         }
 
-        public Task<bool> EditTask(int Id, TaskItem task)
+        public async Task<TaskItem> EditTask(int id, TaskItem task)
         {
-            throw new NotImplementedException();
+            if (task.Id == id)
+            {
+                _context.Entry(task).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+
+            return task;
         }
 
-        public Task<List<TaskDTO>> GetAllMyTasks(string id)
+        public async Task<List<TaskDTO>> GetAllMyTasks(string userId)
         {
-            throw new NotImplementedException();
+            var user = await userManager.FindByIdAsync(userId);
+
+            return await _context.TaskItems
+                .Where(t => t.CreatedByUserId != null && t.CreatedByUserId == userId)
+                .Select(task => new TaskDTO {
+                    Id = task.Id,
+                    Title = task.Title,
+                    StartTime = task.StartTime,
+                    DueTime = task.DueTime,
+                    Assignee = task.Assignee,
+                    Description = task.Description,
+                    EstimatedTimeToComplete = task.EstimatedTimeToComplete,
+                    DifficultyRating = task.DifficultyRating,
+                    CreatedBy = user == null ? null : $"{ user.FirstName} { user.LastName}",
+                })
+                .ToListAsync();
         }
 
         public Task<List<TaskDTO>> GetAllTasks()
         {
-            throw new NotImplementedException();
+            //var tasks = await _context.TaskItems;
+            //return tasks.ToListAsync();
+
+            return default;
         }
 
-        public Task<TaskDTO> GetOneTask(int Id)
+        public async Task<TaskDTO> GetOneTask(int id)
         {
-            throw new NotImplementedException();
+            var task = await _context.TaskItems.FindAsync(id);
+            if (task == null) return null;
+
+            var user = await userManager.FindByIdAsync(task.CreatedByUserId);
+
+            return new TaskDTO
+            {
+                Id = task.Id,
+                Title = task.Title,
+                StartTime = task.StartTime,
+                DueTime = task.DueTime,
+                Assignee = task.Assignee,
+                Description = task.Description,
+                EstimatedTimeToComplete = task.EstimatedTimeToComplete,
+                DifficultyRating = task.DifficultyRating,
+                CreatedBy = user == null ? null : $"{ user.FirstName} { user.LastName}",
+            };
         }
     }
 }

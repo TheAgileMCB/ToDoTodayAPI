@@ -10,7 +10,7 @@ namespace ToDoTodayAPI.Data.Repositories
     {
         Task<List<TaskDTO>> GetAllTasks();
 
-        Task<List<TaskDTO>> GetAllMyTasks(string id);
+        Task<List<TaskDTO>> GetAllMyTasks(string userId);
 
         Task<TaskDTO> GetOneTask(int id);
 
