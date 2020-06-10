@@ -14,7 +14,7 @@ namespace ToDoTodayAPI.Data.Repositories
 
         Task<TaskDTO> GetOneTask(int id);
 
-        Task<bool> EditTask(int Id, TaskItem task);
+        Task<bool> EditTask(int id, TaskItem task);
 
         Task AddTask(TaskItem task);
 
