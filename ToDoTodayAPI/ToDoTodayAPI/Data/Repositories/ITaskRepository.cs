@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ToDoTodayAPI.Models.Api;
 using ToDoTodayAPI.Models;
-using Task = ToDoTodayAPI.Models.Task;
 
 namespace ToDoTodayAPI.Data.Repositories
 {
@@ -13,12 +12,12 @@ namespace ToDoTodayAPI.Data.Repositories
 
         Task<List<TaskDTO>> GetAllMyTasks(string id);
 
-        Task<TaskDTO> GetOneTask(int Id);
+        Task<TaskDTO> GetOneTask(int id);
 
-        Task<bool> EditTask(int Id, Task task);
+        Task<bool> EditTask(int Id, TaskItem task);
 
-        Task<Task> AddTask(Task task);
+        Task AddTask(TaskItem task);
 
-        Task<Task> DeleteTask(int Id);
+        Task DeleteTask(int id);
     }
 }

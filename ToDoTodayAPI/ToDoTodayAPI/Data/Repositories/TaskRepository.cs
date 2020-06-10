@@ -1,24 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ToDoTodayAPI.Models;
 using ToDoTodayAPI.Models.Api;
-using Task = ToDoTodayAPI.Models.Task;
+using ToDoTodayAPI.Models.Identity;
+using System.Linq;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ToDoTodayAPI.Data.Repositories
 {
     public class TaskRepository : ITaskRepository
     {
-        public Task<Task> AddTask(Task task)
+        private ToDoListDBContext _context;
+        private readonly UserManager<ToDoUser> userManager;
+
+        public TaskRepository(ToDoListDBContext context, UserManager<ToDoUser> userManager)
         {
-            throw new NotImplementedException();
+            _context = context;
+            this.userManager = userManager;
         }
 
-        public Task<Task> DeleteTask(int Id)
+        public async System.Threading.Tasks.Task AddTask(TaskItem task)
         {
-            throw new NotImplementedException();
+            _context.Entry(task).State = EntityState.Added;
+            await _context.SaveChangesAsync();
         }
 
-        public Task<bool> EditTask(int Id, Task task)
+        public async Task DeleteTask(int id)
+        {
+            var task = await _context.TaskItems.FindAsync(id);
+            _context.Entry(task).State = EntityState.Deleted;
+            await _context.SaveChangesAsync();
+
+        }
+
+        public Task<bool> EditTask(int Id, TaskItem task)
         {
             throw new NotImplementedException();
         }
