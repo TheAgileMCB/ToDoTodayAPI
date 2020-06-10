@@ -8,7 +8,7 @@ namespace ToDoTodayAPI.Models.Api
 {
     public class TaskDTO
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         [Required]
         public string Title { get; set; }
@@ -19,8 +19,12 @@ namespace ToDoTodayAPI.Models.Api
         public string Assignee { get; set; }
 
         public string Description { get; set; }
+
         public string EstimatedTimeToComplete { get; set; }
 
         public int DifficultyRating { get; set; }
+
+        public string CreatedByUserId { get; set; }
+
     }
 }
