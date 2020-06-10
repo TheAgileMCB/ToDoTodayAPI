@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ToDoTodayAPI.Data;
 
 namespace ToDoTodayAPI.Migrations
 {
     [DbContext(typeof(ToDoListDBContext))]
-    partial class ToDoListDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200610220346_SeedToDoData")]
+    partial class SeedToDoData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
