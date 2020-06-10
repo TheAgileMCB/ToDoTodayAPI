@@ -1,17 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using ToDoTodayAPI.Data;
 using ToDoTodayAPI.Models;
 
@@ -44,8 +39,28 @@ namespace ToDoTodayAPI
             });
 
             services.AddIdentity<ToDoUser, IdentityRole>()
-            .AddEntityFrameworkStores<UsersDbContext>()
-            ;
+                .AddEntityFrameworkStores<UsersDbContext>()
+                ;
+
+            services
+                .AddAuthentication()
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+
+                    var secret = Configuration["JWT:Secret"];
+                    var secretBytes = Encoding.UTF8.GetBytes(secret);
+                    var signingKey = new SymmetricSecurityKey(secretBytes);
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = signingKey,
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                    };
+                });
 
         }
 
@@ -61,6 +76,7 @@ namespace ToDoTodayAPI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
