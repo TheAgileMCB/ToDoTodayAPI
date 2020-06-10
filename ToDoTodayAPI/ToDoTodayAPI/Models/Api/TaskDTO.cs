@@ -24,7 +24,7 @@ namespace ToDoTodayAPI.Models.Api
 
         public int DifficultyRating { get; set; }
 
-        public string CreatedByUserId { get; set; }
+        public string CreatedBy { get; set; }
 
     }
 }
