@@ -81,6 +81,52 @@ namespace ToDoTodayAPI.Controllers
             });
         }
 
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUser(string userId)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound();
+
+            return Ok(new
+            {
+                UserId = user.Id,
+                user.Email,
+                user.FirstName,
+                user.LastName,
+                user.EyeColor,
+                user.FavoriteFood,
+                user.Birthday,
+            });
+        }
+
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> UpdateUser(string userId, UpdateUserData data)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound();
+
+            user.FirstName = data.FirstName;
+            user.LastName = data.LastName;
+            user.EyeColor = data.EyeColor;
+            user.FavoriteFood = data.FavoriteFood;
+            user.Birthday = data.Birthday;
+
+            await userManager.UpdateAsync(user);
+
+            return Ok(new
+            {
+                UserId = user.Id,
+                user.Email,
+                user.FirstName,
+                user.LastName,
+                user.EyeColor,
+                user.FavoriteFood,
+                user.Birthday,
+            });
+        }
+
         private string CreateToken(ToDoUser user)
         {
             var secret = configuration["JWT:Secret"];
