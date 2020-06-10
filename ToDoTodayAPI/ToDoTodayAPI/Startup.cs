@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ToDoTodayAPI.Data;
+using ToDoTodayAPI.Data.Repositories;
 using ToDoTodayAPI.Models;
 
 namespace ToDoTodayAPI
@@ -25,7 +26,6 @@ namespace ToDoTodayAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
 
             services.AddDbContext<ToDoListDBContext>(options =>
             {
@@ -67,6 +67,8 @@ namespace ToDoTodayAPI
                         ValidateAudience = false,
                     };
                 });
+
+            services.AddTransient<ITaskRepository, TaskRepository>();
 
         }
 
