@@ -22,5 +22,7 @@ namespace ToDoTodayAPI.Models
         public string EstimatedTimeToComplete { get; set; }
 
         public int DifficultyRating { get; set; }
+
+        public string CreatedByUserId { get; set; }
     }
 }
