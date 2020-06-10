@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ToDoTodayAPI.Models
 {
-    public class Task
+    public class TaskItem
     {
         public int Id { get; set; }
 
@@ -22,5 +22,7 @@ namespace ToDoTodayAPI.Models
         public string EstimatedTimeToComplete { get; set; }
 
         public int DifficultyRating { get; set; }
+
+        public string CreatedByUserId { get; set; }
     }
 }

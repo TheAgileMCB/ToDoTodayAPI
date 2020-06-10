@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,32 @@ namespace ToDoTodayAPI.Controllers
             this.userManager = userManager;
             this.configuration = configuration;
         }
+
+        [Authorize]
+        [HttpGet("self")]
+        public async Task<IActionResult> Self()
+        {
+            if (HttpContext.User.Identity is ClaimsIdentity claimsIdentity)
+            {
+                var usernameClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var username = usernameClaim.Value;
+
+                var user = await userManager.FindByNameAsync(username);
+
+                return Ok(new
+                {
+                    UserId = user.Id,
+                    user.Email,
+                    user.FirstName,
+                    user.LastName,
+                });
+
+            }
+
+            return Unauthorized();
+
+        }
+
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginData login)
         {
@@ -81,6 +108,52 @@ namespace ToDoTodayAPI.Controllers
             });
         }
 
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUser(string userId)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound();
+
+            return Ok(new
+            {
+                UserId = user.Id,
+                user.Email,
+                user.FirstName,
+                user.LastName,
+                user.EyeColor,
+                user.FavoriteFood,
+                user.Birthday,
+            });
+        }
+
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> UpdateUser(string userId, UpdateUserData data)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound();
+
+            user.FirstName = data.FirstName;
+            user.LastName = data.LastName;
+            user.EyeColor = data.EyeColor;
+            user.FavoriteFood = data.FavoriteFood;
+            user.Birthday = data.Birthday;
+
+            await userManager.UpdateAsync(user);
+
+            return Ok(new
+            {
+                UserId = user.Id,
+                user.Email,
+                user.FirstName,
+                user.LastName,
+                user.EyeColor,
+                user.FavoriteFood,
+                user.Birthday,
+            });
+        }
+
         private string CreateToken(ToDoUser user)
         {
             var secret = configuration["JWT:Secret"];
@@ -95,7 +168,7 @@ namespace ToDoTodayAPI.Controllers
             };
 
             var token = new JwtSecurityToken(
-                expires: DateTime.UtcNow.AddSeconds(10),
+                expires: DateTime.UtcNow.AddMinutes(10),
                 claims: tokenClaims,
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
                 );

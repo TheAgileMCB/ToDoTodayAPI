@@ -1,21 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ToDoTodayAPI.Models.Api;
+using ToDoTodayAPI.Models;
 
 namespace ToDoTodayAPI.Data.Repositories
 {
     public interface ITaskRepository
     {
-        Task<IEnumerable<TaskDTO>> GetAllTasks();
+        Task<List<TaskDTO>> GetAllTasks();
 
-        Task<TaskDTO> GetOneTask(int Id);
+        Task<List<TaskDTO>> GetAllMyTasks(string userId);
 
-        Task<bool> EditTask(int Id, Task task);
+        Task<TaskDTO> GetOneTask(int id);
 
-        Task<Task> AddTask(Task task);
+        Task<TaskItem> EditTask(int id, TaskItem task);
 
-        Task<Task> DeleteTask(int Id);
+        Task AddTask(TaskItem task);
+
+        Task DeleteTask(int id);
     }
 }

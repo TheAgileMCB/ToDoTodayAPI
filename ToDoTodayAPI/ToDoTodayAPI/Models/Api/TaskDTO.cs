@@ -19,8 +19,12 @@ namespace ToDoTodayAPI.Models.Api
         public string Assignee { get; set; }
 
         public string Description { get; set; }
+
         public string EstimatedTimeToComplete { get; set; }
 
         public int DifficultyRating { get; set; }
+
+        public string CreatedBy { get; set; }
+
     }
 }
