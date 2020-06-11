@@ -24,11 +24,15 @@ namespace ToDoTodayAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserManager<ToDoUser> userManager;
+        private readonly IUserClaimsPrincipalFactory<ToDoUser> userClaimsPrincipalFactory;
         private readonly IConfiguration configuration;
 
-        public UsersController(UserManager<ToDoUser> userManager, IConfiguration configuration)
+        public UsersController(UserManager<ToDoUser> userManager, 
+            IUserClaimsPrincipalFactory<ToDoUser> userClaimsPrincipalFactory, 
+            IConfiguration configuration)
         {
             this.userManager = userManager;
+            this.userClaimsPrincipalFactory = userClaimsPrincipalFactory;
             this.configuration = configuration;
         }
 
@@ -69,7 +73,7 @@ namespace ToDoTodayAPI.Controllers
                     return Ok(new
                     {
                         UserId = user.Id,
-                        Token = CreateToken(user),
+                        Token = CreateTokenAsync(user),
                     });
                 }
 
@@ -104,7 +108,7 @@ namespace ToDoTodayAPI.Controllers
             return Ok(new
             {
                 UserId = user.Id,
-                Token = CreateToken(user),
+                Token = CreateTokenAsync(user),
             });
         }
 
@@ -154,18 +158,19 @@ namespace ToDoTodayAPI.Controllers
             });
         }
 
-        private string CreateToken(ToDoUser user)
+        private async Task<string> CreateTokenAsync(ToDoUser user)
         {
             var secret = configuration["JWT:Secret"];
             var secretBytes = Encoding.UTF8.GetBytes(secret);
             var signingKey = new SymmetricSecurityKey(secretBytes);
 
+            var userPrincicpal = await userClaimsPrincipalFactory.CreateAsync(user);
             var tokenClaims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim("UserId", user.Id),
                 new Claim("FullName", $"{user.FirstName} {user.LastName}"),
-            };
+            }.Concat(userPrincicpal.Claims);
 
             var token = new JwtSecurityToken(
                 expires: DateTime.UtcNow.AddMinutes(10),
