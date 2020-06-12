@@ -21,8 +21,8 @@ namespace ToDoTodayAPI.Data
                {
                    Id = 1,
                    Title = "Clean Gutters",
-                   StartTime = DateTime.Now,
-                   DueTime = DateTime.Now.AddDays(7),
+                   StartTime = DateTime.UtcNow,
+                   DueTime = DateTime.UtcNow.AddDays(7),
                    Assignee = "Matthew",
                    Description = "Get up on that ladder and clean out those filthy gutters!",
                    EstimatedTimeToComplete = "2 hours",
@@ -32,8 +32,8 @@ namespace ToDoTodayAPI.Data
                {
                    Id = 2,
                    Title = "Pot Plants",
-                   StartTime = DateTime.Now,
-                   DueTime = DateTime.Now.AddDays(7),
+                   StartTime = DateTime.UtcNow,
+                   DueTime = DateTime.UtcNow.AddDays(7),
                    Assignee = "Matthew",
                    Description = "Your plants are rootbound-- fix it!",
                    EstimatedTimeToComplete = "2 hours",
@@ -43,8 +43,8 @@ namespace ToDoTodayAPI.Data
                {
                    Id = 3,
                    Title = "Build the Fence",
-                   StartTime = DateTime.Now,
-                   DueTime = DateTime.Now.AddDays(7),
+                   StartTime = DateTime.UtcNow,
+                   DueTime = DateTime.UtcNow.AddDays(7),
                    Assignee = "Jessie",
                    Description = "The hard part is done. Now we just have to build and hang the panels.",
                    EstimatedTimeToComplete = "2 hours",
