@@ -27,6 +27,8 @@ namespace ToDoTodayAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddControllers();
+
             services.AddDbContext<ToDoListDBContext>(options =>
             {
                 string connectionString = Configuration.GetConnectionString("DefaultConnection");
