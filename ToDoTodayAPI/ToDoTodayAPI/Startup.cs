@@ -68,6 +68,16 @@ namespace ToDoTodayAPI
                     };
                 });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("tasks.create",
+                    policy => policy.RequireClaim("permissions", "create"));
+                options.AddPolicy("tasks.update",
+                    policy => policy.RequireClaim("permissions", "update"));
+                options.AddPolicy("tasks.delete",
+                    policy => policy.RequireClaim("permissions", "delete"));
+            });
+
             services.AddTransient<ITaskRepository, TaskRepository>();
 
         }
@@ -91,6 +101,21 @@ namespace ToDoTodayAPI
             {
                 endpoints.MapControllers();
             });
+
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var userManager = scope.ServiceProvider.GetService<UserManager<ToDoUser>>();
+                // SeedUsersDatabase(userManager);
+            }
         }
+
+        //private async void SeedUserDatabase(UserManager<ToDoUser> userManager)
+        //{
+        //    var hasUsers = await userManager.Users.AnyAsync();
+        //    if (hasUsers)
+        //    {
+        //        return;
+        //    }
+        //}
     }
 }
