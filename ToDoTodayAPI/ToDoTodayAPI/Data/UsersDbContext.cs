@@ -25,6 +25,7 @@ namespace ToDoTodayAPI.Data
                 Id = "administrator",
                 Name = "Administrator",
                 NormalizedName = "ADMINISTRATOR",
+                ConcurrencyStamp = "a2fd5bd0-76f0-411c-91b1-fec407fab810"
             };
             //var moderator = new IdentityRole
             //{
@@ -36,7 +37,8 @@ namespace ToDoTodayAPI.Data
             {
                 Id = "editor",
                 Name = "Editor",
-                NormalizedName = "EDITOR"
+                NormalizedName = "EDITOR",
+                ConcurrencyStamp = "a063e65e-5b01-4315-a84d-362947875ca9"
             };
             builder.Entity<IdentityRole>()
                 .HasData(administrator, editor);
