@@ -24,15 +24,15 @@ namespace ToDoTodayAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserManager<ToDoUser> userManager;
-        private readonly IUserClaimsPrincipalFactory<ToDoUser> userClaimsPrincipalFactory;
+        private readonly SignInManager<ToDoUser> signInManager;
         private readonly IConfiguration configuration;
 
-        public UsersController(UserManager<ToDoUser> userManager, 
-            IUserClaimsPrincipalFactory<ToDoUser> userClaimsPrincipalFactory, 
+        public UsersController(UserManager<ToDoUser> userManager,
+            SignInManager<ToDoUser> signInManager,
             IConfiguration configuration)
         {
             this.userManager = userManager;
-            this.userClaimsPrincipalFactory = userClaimsPrincipalFactory;
+            this.signInManager = signInManager;
             this.configuration = configuration;
         }
 
@@ -40,12 +40,16 @@ namespace ToDoTodayAPI.Controllers
         [HttpGet("self")]
         public async Task<IActionResult> Self()
         {
-            if (HttpContext.User.Identity is ClaimsIdentity claimsIdentity)
+            if (User.Identity is ClaimsIdentity claimsIdentity)
             {
-                var usernameClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-                var username = usernameClaim.Value;
+                var usernameClaim = claimsIdentity.FindFirst("UserId");
+                var userId = usernameClaim.Value;
 
-                var user = await userManager.FindByNameAsync(username);
+                var user = await userManager.FindByNameAsync(userId);
+                if (user == null)
+                {
+                    return Unauthorized();
+                }
 
                 return Ok(new
                 {
@@ -53,6 +57,7 @@ namespace ToDoTodayAPI.Controllers
                     user.Email,
                     user.FirstName,
                     user.LastName,
+                    user.FavoriteFood,
                 });
 
             }
@@ -73,7 +78,7 @@ namespace ToDoTodayAPI.Controllers
                     return Ok(new
                     {
                         UserId = user.Id,
-                        Token = CreateTokenAsync(user),
+                        Token = await CreateTokenAsync(user),
                     });
                 }
 
@@ -108,7 +113,7 @@ namespace ToDoTodayAPI.Controllers
             return Ok(new
             {
                 UserId = user.Id,
-                Token = CreateTokenAsync(user),
+                Token = await CreateTokenAsync(user),
             });
         }
 
@@ -164,17 +169,18 @@ namespace ToDoTodayAPI.Controllers
             var secretBytes = Encoding.UTF8.GetBytes(secret);
             var signingKey = new SymmetricSecurityKey(secretBytes);
 
-            var userPrincicpal = await userClaimsPrincipalFactory.CreateAsync(user);
-            var tokenClaims = new[]
+            var principal = await signInManager.CreateUserPrincipalAsync(user);
+            var identity = (ClaimsIdentity)principal.Identity;
+            identity.AddClaims(new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim("UserId", user.Id),
                 new Claim("FullName", $"{user.FirstName} {user.LastName}"),
-            }.Concat(userPrincicpal.Claims);
+            });
 
             var token = new JwtSecurityToken(
                 expires: DateTime.UtcNow.AddMinutes(10),
-                claims: tokenClaims,
+                claims: identity.Claims,
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
                 );
 
