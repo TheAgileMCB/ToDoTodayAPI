@@ -21,7 +21,7 @@ namespace ToDoTodayAPI.Data.Repositories
             this.userManager = userManager;
         }
 
-        public async System.Threading.Tasks.Task AddTask(TaskItem task)
+        public async Task AddTask(TaskItem task)
         {
             _context.Entry(task).State = EntityState.Added;
             await _context.SaveChangesAsync();
